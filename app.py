@@ -8,7 +8,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
-# Download Stopwords NLTK (Hanya jika belum ada)
+# Download Stopwords NLTK
 try:
     nltk.data.find('corpora/stopwords')
 except LookupError:
@@ -16,7 +16,7 @@ except LookupError:
 
 st.set_page_config(page_title="Testing Klasifikasi Teks Amikom One", layout="centered")
 
-# STYLING (Force Light Mode: Background Putih, Teks Hitam)
+# STYLING
 st.markdown(
     """
     <style>
@@ -56,7 +56,7 @@ def load_saved_models():
 
 model_svm, vectorizer = load_saved_models()
 
-# Load kamus slang
+# Load slang.csv
 @st.cache_resource
 def load_slang_dict():
     if os.path.exists(SLANG_PATH):
@@ -66,7 +66,7 @@ def load_slang_dict():
 
 slang_dict = load_slang_dict()
 
-# KONFIGURASI PREPROCESSING
+# Text Preprocessing
 tokenizer = RegexpTokenizer(r'\w+')
 stemmer = StemmerFactory().create_stemmer()
 all_stopwords = set(stopwords.words('indonesian'))
@@ -127,8 +127,6 @@ else:
                 st.markdown("### Hasil Prediksi Model:")
                 
                 # 4. Mapping 3 Kelas Sentimen
-                # Asumsi output dari model lu berupa teks ('Positif', 'Netral', 'Negatif') 
-                # atau angka (1, 0, -1). Logika di bawah mencakup keduanya.
                 if hasil_prediksi == 'Positif' or hasil_prediksi == 1:
                     label_svm = "POSITIF"
                 elif hasil_prediksi == 'Netral' or hasil_prediksi == 0:
